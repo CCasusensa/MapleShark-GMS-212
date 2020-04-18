@@ -18,6 +18,8 @@ namespace MapleShark
     public partial class SessionForm : DockContent
     {
         public const ushort HeaderTableOpcode = 0x002D;
+        public const ushort Begin_User = 0x00CF;
+
 
         public enum Results
         {
@@ -377,7 +379,7 @@ using (ScriptAPI) {
                                 {
                                     string opcodes = TripleDESCipher.Decrypt(buffer, key);
 
-                                    for (ushort i = 0; i < 0x0A7F - 0x00CA; i++)
+                                    for (ushort i = 0; i < 0x0A7F - Begin_User; i++)
                                     {
                                         if (i * 4 + 4 <= opcodes.Length)
                                         {
@@ -387,7 +389,7 @@ using (ScriptAPI) {
                                             if (!UInt16.TryParse(sOpcode, out uOpcode))
                                                 break;
 
-                                            mOpcodeTable.Add(uOpcode, (ushort)(0x00CA + i));
+                                            mOpcodeTable.Add(uOpcode, (ushort)(Begin_User + i));
                                         }
                                         else
                                             healthy = false;
